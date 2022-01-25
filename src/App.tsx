@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+import {  observer, Provider } from "mobx-react";
+import React, { useState } from "react";
+import RootStore from "./stores/root.stores";
+import Register from "./pages/Register";
+import Info from "./pages/Info";
+
+const App: React.FunctionComponent<{}> = () => {
+  const [store] = useState(() => new RootStore());
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Register />
+        <Info />
+      </div>
+    </Provider>
   );
-}
+};
 
-export default App;
+export default observer(App);
