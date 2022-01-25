@@ -1,20 +1,19 @@
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { injectStore, WithStoreProps } from "../stores/root.stores";
+import { useDataStore } from "../stores/context";
 import { IUser } from "../stores/user.type";
 
- const Info: React.FC<WithStoreProps> = (props) => {
-  const {
-    store,
-  } = props;
+ const Info: React.FC = observer(()  => {
+  const store = useDataStore();
+  const { removeData, getUsers } = store;
 
   const deleteUser = (user: IUser): void => {
-    store?.usersStore.removeUser(user)
+    removeData(user.id);
   };
 
   return (
     <div>
-      {store?.usersStore.getUsers().map((user: IUser) => (
+      {getUsers().map((user: IUser) => (
         <div className="User" key={user.id}>
           <div>
             <h1>{user.fullName}</h1>
@@ -25,6 +24,6 @@ import { IUser } from "../stores/user.type";
       ))}
     </div>
   );
-};
+});
 
-export default injectStore((observer(Info)));
+export default Info;

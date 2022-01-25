@@ -1,14 +1,11 @@
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { injectStore, WithStoreProps } from "../stores/root.stores";
+import { useDataStore } from "../stores/context";
 import { IUser } from "../stores/user.type";
 
-const Register: React.FC<WithStoreProps> = (props) => {
+const Register: React.FC = observer(() => {
   const [user, setUser] = React.useState<IUser | {}>();
-
-  const {
-    store,
-  } = props;
+  const { addUser } = useDataStore();
 
   const handleUserData = (e: React.FormEvent<HTMLInputElement>) => {
     setUser({
@@ -20,19 +17,11 @@ const Register: React.FC<WithStoreProps> = (props) => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const tempUser = user as IUser;
-    
-    store?.usersStore.
-    addUser(
-      tempUser.fullName,
-      tempUser.username,
-      tempUser.password,
-      tempUser.email,
-      tempUser.acceptTerms
-    );
+
+    addUser(tempUser);
   };
 
-  const reset = () => {
-  };
+  const reset = () => {};
 
   return (
     <div className="register-form">
@@ -104,6 +93,6 @@ const Register: React.FC<WithStoreProps> = (props) => {
       </form>
     </div>
   );
-};
+});
 
-export default injectStore(observer(Register));
+export default Register;
