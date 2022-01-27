@@ -19,6 +19,7 @@ export function createStore() {
       acceptTerms: true,
     },] as IUser[],
      addUser(user: IUser) {
+       user.id = Math.random();
        this.users.push(user);
      },
      removeData(id: number){
